@@ -205,8 +205,8 @@ func TestHandleKubePod(t *testing.T) {
 					Name:      podName,
 					Namespace: podNamespace,
 				},
-				Containers: []workloadmeta.OrchestratorContainer{
-					{
+				Containers: map[string]workloadmeta.OrchestratorContainer{
+					fullyFleshedContainerID: {
 						ID:    fullyFleshedContainerID,
 						Name:  containerName,
 						Image: image,
@@ -261,8 +261,8 @@ func TestHandleKubePod(t *testing.T) {
 						"tags.datadoghq.com/agent.version": version,
 					},
 				},
-				Containers: []workloadmeta.OrchestratorContainer{
-					{
+				Containers: map[string]workloadmeta.OrchestratorContainer{
+					noEnvContainerID: {
 						ID:   noEnvContainerID,
 						Name: containerName,
 					},
@@ -399,8 +399,8 @@ func TestHandleECSTask(t *testing.T) {
 				Family:      "datadog-agent",
 				Version:     "1",
 				LaunchType:  workloadmeta.ECSLaunchTypeEC2,
-				Containers: []workloadmeta.OrchestratorContainer{
-					{
+				Containers: map[string]workloadmeta.OrchestratorContainer{
+					containerID: {
 						ID:   containerID,
 						Name: containerName,
 					},
@@ -439,8 +439,8 @@ func TestHandleECSTask(t *testing.T) {
 				Family:      "datadog-agent",
 				Version:     "1",
 				LaunchType:  workloadmeta.ECSLaunchTypeFargate,
-				Containers: []workloadmeta.OrchestratorContainer{
-					{
+				Containers: map[string]workloadmeta.OrchestratorContainer{
+					containerID: {
 						ID:   containerID,
 						Name: containerName,
 					},
@@ -925,8 +925,8 @@ func TestHandleDelete(t *testing.T) {
 			Name:      podName,
 			Namespace: podNamespace,
 		},
-		Containers: []workloadmeta.OrchestratorContainer{
-			{
+		Containers: map[string]workloadmeta.OrchestratorContainer{
+			containerID: {
 				ID:   containerID,
 				Name: containerName,
 			},
@@ -1002,7 +1002,7 @@ func TestHandlePodWithDeletedContainer(t *testing.T) {
 			Name:      "datadog-agent",
 			Namespace: "default",
 		},
-		Containers: []workloadmeta.OrchestratorContainer{},
+		Containers: map[string]workloadmeta.OrchestratorContainer{},
 	}
 	podTaggerEntityID := fmt.Sprintf("kubernetes_pod_uid://%s", pod.ID)
 
