@@ -20,7 +20,7 @@ import (
 
 func TestFallbackConstants(t *testing.T) {
 	checkKernelCompatibility(t, "SLES and Oracle kernels", func(kv *kernel.Version) bool {
-		return kv.IsSLES12Kernel() || kv.IsSLES15Kernel() || kv.IsOracleUEKKernel()
+		return kv.IsSLESKernel() || kv.IsOracleUEKKernel()
 	})
 
 	test, err := newTestModule(t, nil, []*rules.RuleDefinition{}, testOpts{})
