@@ -2431,6 +2431,13 @@ api_key:
     ## Admission controller's endpoint responsible for handling tags injection requests.
     #
     # endpoint: /injecttags
+
+  ## @param reinvocation_policy - string - optional - default: IfNeeded
+  ## @env DD_ADMISSION_CONTROLLER_REINVOCATION_POLICY - string - optional - default: IfNeeded
+  ## Set the reinvocation policy for dynamic admission control.
+  ## See https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/#reinvocation-policy
+  #
+  # reinvocation_policy: IfNeeded
 {{ end -}}
 {{- if .DockerTagging }}
 

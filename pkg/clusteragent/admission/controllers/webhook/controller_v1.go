@@ -10,6 +10,7 @@ package webhook
 
 import (
 	"context"
+	"strings"
 	"time"
 
 	"github.com/DataDog/datadog-agent/pkg/config"
@@ -203,6 +204,7 @@ func (c *ControllerV1) getWebhookSkeleton(nameSuffix, path string) admiv1.Mutati
 	sideEffects := admiv1.SideEffectClassNone
 	port := c.config.getServicePort()
 	timeout := c.config.getTimeout()
+	reinvocationPolicy := c.getReinvocationPolicy()
 	webhook := admiv1.MutatingWebhook{
 		Name: c.config.configName(nameSuffix),
 		ClientConfig: admiv1.WebhookClientConfig{
@@ -225,6 +227,7 @@ func (c *ControllerV1) getWebhookSkeleton(nameSuffix, path string) admiv1.Mutati
 				},
 			},
 		},
+		ReinvocationPolicy:      &reinvocationPolicy,
 		FailurePolicy:           &failurePolicy,
 		MatchPolicy:             &matchPolicy,
 		SideEffects:             &sideEffects,
@@ -241,4 +244,17 @@ func (c *ControllerV1) getWebhookSkeleton(nameSuffix, path string) admiv1.Mutati
 	webhook.ObjectSelector = labelSelector
 
 	return webhook
+}
+
+func (c *ControllerV1) getReinvocationPolicy() admiv1.ReinvocationPolicyType {
+	policy := strings.ToLower(c.config.getReinvocationPolicy())
+	switch policy {
+	case "ifneeded":
+		return admiv1.IfNeededReinvocationPolicy
+	case "never":
+		return admiv1.NeverReinvocationPolicy
+	default:
+		log.Warnf("Unknown reinvocation policy %q - defaulting to %q", policy, admiv1.IfNeededReinvocationPolicy)
+		return admiv1.IfNeededReinvocationPolicy
+	}
 }
