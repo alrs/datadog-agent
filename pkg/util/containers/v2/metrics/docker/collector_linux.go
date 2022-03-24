@@ -28,7 +28,6 @@ func convertContainerStats(stats *types.Stats) *provider.ContainerStats {
 		CPU:       convertCPUStats(&stats.CPUStats),
 		Memory:    convertMemoryStats(&stats.MemoryStats),
 		IO:        convertIOStats(&stats.BlkioStats),
-		PID:       convertPIDStats(&stats.PidsStats),
 	}
 }
 
