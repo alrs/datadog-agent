@@ -88,7 +88,7 @@ type Config struct {
 	HostServiceName string
 	// LogPatterns pattern to be used by the logger for trace level
 	LogPatterns []string
-	// SelfTestEnabled defines if the self tester should be enabled (useful for tests for example)
+	// SelfTestEnabled defines if the self tests should be executed at startup or not
 	SelfTestEnabled bool
 	// EnableRemoteConfig defines if the agent configuration should be fetched from the backend
 	EnableRemoteConfig bool
